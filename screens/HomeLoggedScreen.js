@@ -116,7 +116,8 @@ export default function HomeLoggedScreen() {
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
+  wrapper: { 
+    
     flex: 1,
     backgroundColor: '#888',
     justifyContent: 'center',
