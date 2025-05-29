@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,11 +7,14 @@ import {
   ScrollView,
   Platform,
   KeyboardAvoidingView,
+  Modal,
+  BackHandler,
 } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
 
 export default function HomeLoggedScreen() {
-  const todaysCigarettes = 5;
+  const [todaysCigarettes, setTodaysCigarettes] = useState(5);
+  const [showModal, setShowModal] = useState(false);
   const weeklyData = [11, 9, 12, 10, 8, 7, 5];
 
   return (
@@ -22,13 +25,11 @@ export default function HomeLoggedScreen() {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
           <ScrollView contentContainerStyle={styles.container}>
-            {/* HEADER */}
             <Text style={styles.header}>Bentornato, ****</Text>
             <Text style={styles.subText}>Oggi hai fumato</Text>
             <Text style={styles.bigCount}>{todaysCigarettes}</Text>
             <Text style={styles.subText}>sigarette!</Text>
 
-            {/* SLIDER VISIVO FISSO */}
             <View style={styles.slider}>
               {Array.from({ length: 11 }).map((_, i) => (
                 <View
@@ -41,13 +42,11 @@ export default function HomeLoggedScreen() {
               ))}
             </View>
 
-            {/* BOTTONE */}
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => setShowModal(true)}>
               <Feather name="plus" size={20} color="#fff" />
               <Text style={styles.buttonText}>Registra Sigaretta</Text>
             </TouchableOpacity>
 
-            {/* SETTIMANA */}
             <View style={styles.card}>
               <Text style={styles.cardTitle}>SETTIMANA 1 - 2025</Text>
               <View style={styles.barGroup}>
@@ -63,14 +62,12 @@ export default function HomeLoggedScreen() {
               </Text>
             </View>
 
-            {/* ESPORTA */}
             <TouchableOpacity style={styles.button}>
               <Feather name="share-2" size={20} color="#fff" />
               <Text style={styles.buttonText}>Esporta Riepilogo</Text>
             </TouchableOpacity>
           </ScrollView>
 
-          {/* NAVBAR */}
           <View style={styles.navbar}>
             <Ionicons name="home-outline" size={24} color="#2E4E45" />
             <Ionicons name="headset-outline" size={24} color="#2E4E45" />
@@ -78,6 +75,41 @@ export default function HomeLoggedScreen() {
             <Ionicons name="settings-outline" size={24} color="#2E4E45" />
           </View>
         </KeyboardAvoidingView>
+
+        <Modal
+          transparent
+          visible={showModal}
+          animationType="fade"
+          onRequestClose={() => setShowModal(false)}
+        >
+          <View style={styles.modalBackground}>
+            <View style={styles.modalBox}>
+              <Text style={styles.modalText}>Sei sicuro della scelta?</Text>
+
+              <View style={styles.modalButtons}>
+                <TouchableOpacity
+                  style={[styles.modalButton, { backgroundColor: '#2E4E45' }]}
+                  onPress={() => {
+                    setTodaysCigarettes(prev => prev + 1);
+                    setShowModal(false);
+                  }}
+                >
+                  <Text style={styles.modalButtonText}>Conferma</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[styles.modalButton, { backgroundColor: '#b30000' }]}
+                  onPress={() => {
+                    setShowModal(false);
+                    BackHandler.exitApp();
+                  }}
+                >
+                  <Text style={styles.modalButtonText}>Annulla</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     </View>
   );
@@ -170,5 +202,46 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+  },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalBox: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 24,
+    width: '80%',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  modalText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  modalButton: {
+    flex: 1,
+    marginHorizontal: 8,
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  modalButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
