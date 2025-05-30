@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   deviceContainer: {
     width: 390, // iPhone 14 Pro width
-    height: 844, // iPhone 14 Pro height
+    height: 700, // iPhone 14 Pro height
     backgroundColor: '#fff',
     borderRadius: 30,
     overflow: 'hidden',

@@ -48,7 +48,7 @@ export default function RegisterCredentialsScreen({ navigation }) {
               secureTextEntry
             />
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
               <Text style={styles.buttonText}>Registrati</Text>
             </TouchableOpacity>
 
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   deviceContainer: {
     width: 390,
-    height: 844,
+    height: 700,
     backgroundColor: '#fff',
     borderRadius: 30,
     overflow: 'hidden',

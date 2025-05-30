@@ -24,7 +24,7 @@ export default function HomeLoggedScreen() {
           style={{ flex: 1 }}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
-          <ScrollView contentContainerStyle={styles.container}>
+          <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
             <Text style={styles.header}>Bentornato, ****</Text>
             <Text style={styles.subText}>Oggi hai fumato</Text>
             <Text style={styles.bigCount}>{todaysCigarettes}</Text>
@@ -68,6 +68,41 @@ export default function HomeLoggedScreen() {
             </TouchableOpacity>
           </ScrollView>
 
+          <Modal
+            transparent
+            visible={showModal}
+            animationType="fade"
+            onRequestClose={() => setShowModal(false)}
+          >
+            <View style={styles.modalWrapper}>
+              <View style={styles.modalBox}>
+                <Text style={styles.modalText}>Sei sicuro della scelta?</Text>
+
+                <View style={styles.modalButtons}>
+                  <TouchableOpacity
+                    style={[styles.modalButton, { backgroundColor: '#2E4E45' }]}
+                    onPress={() => {
+                      setTodaysCigarettes(prev => prev + 1);
+                      setShowModal(false);
+                    }}
+                  >
+                    <Text style={styles.modalButtonText}>Conferma</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={[styles.modalButton, { backgroundColor: '#b30000' }]}
+                    onPress={() => {
+                      setShowModal(false);
+                      BackHandler.exitApp();
+                    }}
+                  >
+                    <Text style={styles.modalButtonText}>Annulla</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal>
+
           <View style={styles.navbar}>
             <Ionicons name="home-outline" size={24} color="#2E4E45" />
             <Ionicons name="headset-outline" size={24} color="#2E4E45" />
@@ -75,49 +110,13 @@ export default function HomeLoggedScreen() {
             <Ionicons name="settings-outline" size={24} color="#2E4E45" />
           </View>
         </KeyboardAvoidingView>
-
-        <Modal
-          transparent
-          visible={showModal}
-          animationType="fade"
-          onRequestClose={() => setShowModal(false)}
-        >
-          <View style={styles.modalBackground}>
-            <View style={styles.modalBox}>
-              <Text style={styles.modalText}>Sei sicuro della scelta?</Text>
-
-              <View style={styles.modalButtons}>
-                <TouchableOpacity
-                  style={[styles.modalButton, { backgroundColor: '#2E4E45' }]}
-                  onPress={() => {
-                    setTodaysCigarettes(prev => prev + 1);
-                    setShowModal(false);
-                  }}
-                >
-                  <Text style={styles.modalButtonText}>Conferma</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={[styles.modalButton, { backgroundColor: '#b30000' }]}
-                  onPress={() => {
-                    setShowModal(false);
-                    BackHandler.exitApp();
-                  }}
-                >
-                  <Text style={styles.modalButtonText}>Annulla</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </Modal>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrapper: { 
-    
+  wrapper: {
     flex: 1,
     backgroundColor: '#888',
     justifyContent: 'center',
@@ -125,16 +124,18 @@ const styles = StyleSheet.create({
   },
   deviceContainer: {
     width: 390,
-    height: 844,
+    height: 700,
     backgroundColor: '#fff',
     borderRadius: 30,
     overflow: 'hidden',
     elevation: 10,
+    position: 'relative',
   },
   container: {
     padding: 24,
-    paddingBottom: 80,
+    paddingBottom: 120,
     alignItems: 'center',
+    flexGrow: 1,
   },
   header: { fontSize: 24, fontWeight: 'bold', marginBottom: 10, color: '#2E4E45' },
   subText: { fontSize: 16, color: '#2E4E45' },
@@ -203,8 +204,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+    zIndex: 10,
   },
-  modalBackground: {
+  modalWrapper: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.4)',
     justifyContent: 'center',
@@ -214,7 +216,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 12,
     padding: 24,
-    width: '80%',
+    width: 300,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOpacity: 0.25,
