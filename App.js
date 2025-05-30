@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import "react-native-gesture-handler";
 import "react-native-reanimated";
 import { useFonts, Pacifico_400Regular } from "@expo-google-fonts/pacifico";
+import Toast from 'react-native-toast-message';
 
 // Importa gli schermi
 import SplashScreen from "./screens/SplashScreen";
@@ -22,7 +23,7 @@ export default function App() {
     Pacifico: Pacifico_400Regular,
   });
   return (
-    <NavigationContainer>
+    <><NavigationContainer>
       <Stack.Navigator
         initialRouteName="Splash"
         screenOptions={{ headerShown: false }}
@@ -33,12 +34,11 @@ export default function App() {
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen
           name="RegisterStep2"
-          component={RegisterCredentialsScreen}
-        />
+          component={RegisterCredentialsScreen} />
         <Stack.Screen name="HomeLogged" component={HomeLoggedScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
       </Stack.Navigator>
-    </NavigationContainer>
+    </NavigationContainer><Toast /></>
   );
 }
