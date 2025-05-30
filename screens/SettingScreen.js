@@ -7,6 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { Ionicons, FontAwesome5, MaterialIcons, Entypo } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 export default function SettingsScreen({ navigation }) {
   return (
@@ -15,7 +16,7 @@ export default function SettingsScreen({ navigation }) {
         <ScrollView contentContainerStyle={styles.container}>
           <Text style={styles.title}>Impostazioni</Text>
 
-          <TouchableOpacity style={styles.option}>
+          <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('Profile')}>
             <FontAwesome5 name="user" size={18} color="#fff" style={styles.icon} />
             <Text style={styles.optionText}>Profilo</Text>
           </TouchableOpacity>
@@ -42,7 +43,9 @@ export default function SettingsScreen({ navigation }) {
         </ScrollView>
 
         <View style={styles.navbar}>
+          <TouchableOpacity onPress={() => navigation.navigate('HomeLogged')}>
             <Ionicons name="home-outline" size={24} color="#2E4E45" />
+          </TouchableOpacity>
             <Ionicons name="headset-outline" size={24} color="#2E4E45" />
             <Ionicons name="bar-chart-outline" size={24} color="#2E4E45" />
             <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
