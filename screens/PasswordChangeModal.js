@@ -1,31 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
-  View,
+  StyleSheet,
   Text,
   TextInput,
-  StyleSheet,
+  View,
   Modal,
+  Image,
   TouchableOpacity,
-} from 'react-native';
+} from "react-native";
 
 export default function PasswordChangeModal({ visible, onClose }) {
-  const [oldPassword, setOldPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleConfirm = () => {
-    if (newPassword === confirmPassword) {
-      console.log('Password cambiata');
-      onClose();
-    } else {
-      alert('Le nuove password non coincidono');
+    if (newPassword !== confirmPassword) {
+      alert("Le nuove password non coincidono");
+      return;
     }
+    // TODO: integra logica di cambio password
+    console.log("Password cambiata");
+    onClose();
   };
 
+  const disabled = !oldPassword || !newPassword || !confirmPassword;
+
   return (
-    <Modal transparent visible={visible} animationType="fade" onRequestClose={onClose}>
+    <Modal
+      transparent
+      visible={visible}
+      animationType="fade"
+      onRequestClose={onClose}
+    >
       <View style={styles.overlay}>
         <View style={styles.modalBox}>
+          <Text style={styles.title}>Cambia password</Text>
+
           <Text style={styles.label}>Vecchia password</Text>
           <TextInput
             style={styles.input}
@@ -51,10 +62,22 @@ export default function PasswordChangeModal({ visible, onClose }) {
           />
 
           <View style={styles.buttonRow}>
-            <TouchableOpacity style={[styles.button, styles.confirm]} onPress={handleConfirm}>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                styles.confirm,
+                disabled && { opacity: 0.5 },
+              ]}
+              onPress={handleConfirm}
+              disabled={disabled}
+            >
               <Text style={styles.buttonText}>Conferma</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, styles.cancel]} onPress={onClose}>
+
+            <TouchableOpacity
+              style={[styles.button, styles.cancel]}
+              onPress={onClose}
+            >
               <Text style={styles.buttonText}>Annulla</Text>
             </TouchableOpacity>
           </View>
@@ -67,53 +90,67 @@ export default function PasswordChangeModal({ visible, onClose }) {
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(0,0,0,0.45)",
+    justifyContent: "center",
+    alignItems: "center",
   },
   modalBox: {
-    backgroundColor: '#fff',
-    width: 320,
-    borderRadius: 12,
-    padding: 24,
-    shadowColor: '#000',
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-    elevation: 5,
+    width: "85%",
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    paddingVertical: 28,
+    paddingHorizontal: 24,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 8,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#2E4E45",
+    textAlign: "center",
+    marginBottom: 24,
   },
   label: {
     marginBottom: 6,
-    color: '#333',
-    fontWeight: '600',
+    color: "#444",
+    fontSize: 15,
+    fontWeight: "500",
   },
   input: {
-    backgroundColor: '#fff',
-    borderColor: '#ccc',
+    width: "100%",
+    borderColor: "#ccc",
     borderWidth: 1,
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 16,
+    borderRadius: 10,
+    backgroundColor: "#F9F9F9",
+    paddingVertical: 14,
+    paddingHorizontal: 16,
     fontSize: 16,
+    marginBottom: 18,
   },
   buttonRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 12,
   },
   button: {
     flex: 1,
-    paddingVertical: 12,
-    borderRadius: 8,
-    alignItems: 'center',
+    paddingVertical: 14,
+    borderRadius: 10,
+    alignItems: "center",
     marginHorizontal: 6,
   },
   confirm: {
-    backgroundColor: '#000',
+    backgroundColor: "#2E4E45",
   },
   cancel: {
-    backgroundColor: '#b30000',
+    backgroundColor: "#b30000",
   },
   buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    letterSpacing: 0.3,
   },
 });

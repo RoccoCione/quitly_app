@@ -1,124 +1,124 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
-  View,
+  StyleSheet,
   Text,
   TextInput,
-  StyleSheet,
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-} from 'react-native';
+  View,
+  Image,
+} from "react-native";
+import DeviceFrame from "../screens/DeviceFrame"; // percorso corretto
 
 export default function RegisterScreen({ navigation }) {
-  const [nome, setNome] = useState('');
-  const [cognome, setCognome] = useState('');
-  const [dataNascita, setDataNascita] = useState('');
+  const [nome, setNome] = useState("");
+  const [cognome, setCognome] = useState("");
+  const [dataNascita, setDataNascita] = useState("");
 
   return (
-    <View style={styles.wrapper}>
-      <View style={styles.deviceContainer}>
-        <KeyboardAvoidingView
-          style={{ flex: 1 }}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    <DeviceFrame>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <ScrollView
+          contentContainerStyle={styles.container}
+          showsVerticalScrollIndicator={false}
         >
-          <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-            <Text style={styles.logo}>Quitly</Text>
+          <Image
+            source={require("../assets/quitly_logo_white.png")}
+            style={styles.logo}
+          />
 
-            <TextInput
-              placeholder="Nome"
-              value={nome}
-              onChangeText={setNome}
-              style={styles.input}
-            />
-            <TextInput
-              placeholder="Cognome"
-              value={cognome}
-              onChangeText={setCognome}
-              style={styles.input}
-            />
-            <TextInput
-              placeholder="Data di nascita"
-              value={dataNascita}
-              onChangeText={setDataNascita}
-              style={styles.input}
-            />
+          <TextInput
+            placeholder="Nome"
+            value={nome}
+            onChangeText={setNome}
+            style={styles.input}
+          />
 
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('RegisterStep2')}>
-              <Text style={styles.buttonText}>Avanti</Text>
+          <TextInput
+            placeholder="Cognome"
+            value={cognome}
+            onChangeText={setCognome}
+            style={styles.input}
+          />
+
+          <TextInput
+            placeholder="Data di nascita (GG/MM/AAAA)"
+            value={dataNascita}
+            onChangeText={setDataNascita}
+            style={styles.input}
+            keyboardType="numbers-and-punctuation"
+          />
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("RegisterStep2")}
+          >
+            <Text style={styles.buttonText}>Avanti</Text>
+          </TouchableOpacity>
+
+          <View style={styles.footer}>
+            <Text style={{ color: "#333" }}>
+              Hai già effettuato la registrazione?{" "}
+            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <Text style={styles.link}>Accedi</Text>
             </TouchableOpacity>
-
-            <View style={styles.footer}>
-              <Text style={{ color: '#333' }}>Hai già effettuato la registrazione? </Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text style={styles.link}>Accedi</Text>
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </View>
-    </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </DeviceFrame>
   );
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    backgroundColor: '#888',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  deviceContainer: {
-    width: 390,
-    height: 700,
-    backgroundColor: '#fff',
-    borderRadius: 30,
-    overflow: 'hidden',
-    elevation: 10,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-  },
   container: {
-    padding: 32,
-    justifyContent: 'center',
     flexGrow: 1,
+    justifyContent: "center",
+    paddingHorizontal: 32,
   },
   logo: {
-    fontSize: 42,
-    fontWeight: 'bold',
-    color: '#2E4E45',
-    marginBottom: 40,
-    textAlign: 'center',
+    width: 220,
+    height: 220,
+    resizeMode: "contain",
+    marginBottom: 60,
+    alignSelf: "center",
   },
   input: {
-    backgroundColor: '#F0F0F0',
-    borderRadius: 10,
-    padding: 14,
+    backgroundColor: "#F0F0F0",
+    borderRadius: 12,
+    paddingVertical: 16,
+    paddingHorizontal: 18,
     fontSize: 16,
-    marginBottom: 16,
+    marginBottom: 20,
   },
   button: {
-    backgroundColor: '#2E4E45',
-    padding: 16,
-    borderRadius: 25,
-    alignItems: 'center',
+    backgroundColor: "#2E4E45",
+    paddingVertical: 18,
+    borderRadius: 28,
+    alignItems: "center",
     marginTop: 10,
+    elevation: 4,
   },
   buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+    letterSpacing: 0.5,
   },
   footer: {
-    marginTop: 20,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    marginTop: 28,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   link: {
-    color: '#2E4E45',
-    textDecorationLine: 'underline',
-    fontWeight: 'bold',
+    color: "#2E4E45",
+    textDecorationLine: "underline",
+    fontWeight: "bold",
   },
 });

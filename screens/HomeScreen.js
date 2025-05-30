@@ -1,81 +1,77 @@
-import React from 'react';
+import React from "react";
 import {
-  View,
-  Text,
   StyleSheet,
+  Text,
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-} from 'react-native';
+  Image,
+} from "react-native";
+import DeviceFrame from "../screens/DeviceFrame"; // percorso corretto
 
 export default function HomeScreen({ navigation }) {
   return (
-    <View style={styles.wrapper}>
-      <View style={styles.deviceContainer}>
-        <KeyboardAvoidingView
-          style={{ flex: 1 }}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    <DeviceFrame>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <ScrollView
+          contentContainerStyle={styles.container}
+          showsVerticalScrollIndicator={false}
         >
-          <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
-            <Text style={styles.logo}>Quitly</Text>
+          {/* Logo immagine al posto del testo per coerenza con Splash */}
+          <Image
+            source={require("../assets/quitly_logo_white.png")}
+            style={styles.logo}
+          />
 
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
-              <Text style={styles.buttonText}>Accedi</Text>
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("Login")}
+          >
+            <Text style={styles.buttonText}>Accedi</Text>
+          </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Register')}>
-              <Text style={styles.buttonText}>Registrati</Text>
-            </TouchableOpacity>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </View>
-    </View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("Register")}
+          >
+            <Text style={styles.buttonText}>Registrati</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </DeviceFrame>
   );
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    backgroundColor: '#888',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  deviceContainer: {
-    width: 390,
-    height: 700,
-    backgroundColor: '#fff',
-    borderRadius: 30,
-    overflow: 'hidden',
-    elevation: 10,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-  },
   container: {
-    padding: 32,
-    justifyContent: 'center',
-    alignItems: 'center',
     flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 32,
   },
   logo: {
-    fontSize: 48,
-    fontWeight: 'bold',
-    color: '#2E4E45',
-    marginBottom: 60,
-    textAlign: 'center',
+    width: 240,
+    height: 240,
+    resizeMode: "contain",
+    marginBottom: 80,
   },
   button: {
-    backgroundColor: '#2E4E45',
-    paddingVertical: 14,
-    paddingHorizontal: 60,
-    borderRadius: 25,
-    marginVertical: 10,
-    elevation: 3,
+    width: "80%",
+    backgroundColor: "#2E4E45",
+    paddingVertical: 18,
+    borderRadius: 28,
+    marginVertical: 14,
+    alignItems: "center",
+    elevation: 4,
   },
   buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+    letterSpacing: 0.5,
   },
 });

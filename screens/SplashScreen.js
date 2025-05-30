@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import {
-  View,
+  StyleSheet,
   Image,
   Text,
+  View,
   ActivityIndicator,
-  StyleSheet,
   SafeAreaView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import DeviceFrame from "../screens/DeviceFrame";
 
 export default function SplashScreen() {
   const navigation = useNavigation();
@@ -18,50 +19,33 @@ export default function SplashScreen() {
   }, [navigation]);
 
   return (
-    <View style={styles.wrapper}>
-      <View style={styles.deviceContainer}>
-        <SafeAreaView style={styles.container}>
-          <View style={styles.center}>
-            <Image
-              source={require("../assets/quitly_logo.jpg")}
-              style={styles.logo}
-            />
-            <ActivityIndicator
-              size="large"
-              color="#24433C"
-              style={styles.spinner}
-            />
-          </View>
-          <Text style={styles.tagline}>SMETTI ANCHE TU{"\n"}DI FUMARE!!</Text>
-        </SafeAreaView>
-      </View>
-    </View>
+    <DeviceFrame>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.center}>
+          <Image
+            source={require("../assets/quitly_logo.jpg")}
+            style={styles.logo}
+          />
+          <ActivityIndicator
+            size="large"
+            color="#24433C"
+            style={styles.spinner}
+          />
+        </View>
+
+        <Text style={styles.tagline}>SMETTI ANCHE TU{"\n"}DI FUMARE!!</Text>
+      </SafeAreaView>
+    </DeviceFrame>
   );
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    backgroundColor: "#888",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  deviceContainer: {
-    width: 390,
-    height: 700,
-    backgroundColor: "#E3EDDE",
-    borderRadius: 30,
-    overflow: "hidden",
-    elevation: 10,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-  },
   container: {
     flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
     padding: 32,
+    backgroundColor: "#E3EDDE", // colore dello splash
   },
   center: {
     flex: 1,
