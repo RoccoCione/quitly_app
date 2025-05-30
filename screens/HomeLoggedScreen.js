@@ -11,9 +11,11 @@ import {
   BackHandler,
 } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 export default function HomeLoggedScreen() {
   const [todaysCigarettes, setTodaysCigarettes] = useState(5);
+  const navigation = useNavigation();
   const [showModal, setShowModal] = useState(false);
   const weeklyData = [11, 9, 12, 10, 8, 7, 5];
 
@@ -107,7 +109,9 @@ export default function HomeLoggedScreen() {
             <Ionicons name="home-outline" size={24} color="#2E4E45" />
             <Ionicons name="headset-outline" size={24} color="#2E4E45" />
             <Ionicons name="bar-chart-outline" size={24} color="#2E4E45" />
+            <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
             <Ionicons name="settings-outline" size={24} color="#2E4E45" />
+            </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
       </View>

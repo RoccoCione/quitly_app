@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   deviceContainer: {
     width: 390,
-    height: 844,
+    height: 700,
     backgroundColor: "#E3EDDE",
     borderRadius: 30,
     overflow: "hidden",
