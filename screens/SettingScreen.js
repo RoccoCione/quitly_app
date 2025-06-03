@@ -19,7 +19,7 @@ export default function SettingsScreen({ navigation }) {
     navigation.navigate("Login");
     Toast.show({
       type: "success",
-      text1: "Logout effettuato con successo",
+      text1: "Logout effettuato con successo ✔️",
     });
   };
 
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     paddingVertical: 28,
     paddingHorizontal: 24,
-    width: "80%",
+    width: 300,
     alignItems: "center",
     elevation: 6,
     shadowColor: "#000",

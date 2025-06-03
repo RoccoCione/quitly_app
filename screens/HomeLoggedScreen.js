@@ -12,6 +12,7 @@ import {
 import { Ionicons, Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import DeviceFrame from "../screens/DeviceFrame";
+import Toast from "react-native-toast-message";
 
 export default function HomeLoggedScreen() {
   const [todaysCigarettes, setTodaysCigarettes] = useState(5);
@@ -21,6 +22,13 @@ export default function HomeLoggedScreen() {
   // dati fittizi per la mini-bar chart
   const weeklyData = [11, 9, 12, 10, 8, 7, 5];
   const maxVal = Math.max(...weeklyData);
+
+  const confirmSigaretta = () => {
+      Toast.show({
+        type: "success",
+        text1: "Sigaretta aggiunta con successo 🚬",
+      });
+    };
 
   return (
     <DeviceFrame>
@@ -108,6 +116,7 @@ export default function HomeLoggedScreen() {
                   onPress={() => {
                     setTodaysCigarettes((prev) => prev + 1);
                     setShowModal(false);
+                    confirmSigaretta();
                   }}
                 >
                   <Text style={styles.modalButtonText}>Conferma</Text>
@@ -244,7 +253,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     paddingVertical: 28,
     paddingHorizontal: 24,
-    width: "80%",
+    width: 300,
     alignItems: "center",
     elevation: 5,
   },

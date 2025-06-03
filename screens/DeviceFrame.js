@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 
 const DEVICE_WIDTH = 390; // oppure 393
-const DEVICE_HEIGHT = 844; // oppure 852
+const DEVICE_HEIGHT = 675; // oppure 852
 const BORDER_RADIUS = 30;
 
 export default function DeviceFrame({ children, style }) {
