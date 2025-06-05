@@ -122,16 +122,20 @@ export default function ProfileScreen() {
       />
 
       {/* Navbar */}
-      <View style={styles.navbar}>
-        <TouchableOpacity onPress={() => navigation.navigate("HomeLogged")}>
-          <Ionicons name="home-outline" size={24} color="#2E4E45" />
-        </TouchableOpacity>
-        <Ionicons name="headset-outline" size={24} color="#2E4E45" />
-        <Ionicons name="bar-chart-outline" size={24} color="#2E4E45" />
-        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-          <Ionicons name="settings-outline" size={24} color="#2E4E45" />
-        </TouchableOpacity>
-      </View>
+        <View style={styles.navbar}>
+          <TouchableOpacity onPress={() => navigation.navigate("HomeLogged")}>
+            <Ionicons name="home-outline" size={24} color="#2E4E45" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Support")}>
+            <Ionicons name="headset-outline" size={24} color="#2E4E45" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Stats")}>
+            <Ionicons name="bar-chart-outline" size={24} color="#2E4E45" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+            <Ionicons name="settings-outline" size={24} color="#2E4E45" />
+          </TouchableOpacity>
+        </View>
     </DeviceFrame>
   );
 }
