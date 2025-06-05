@@ -12,16 +12,19 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import DeviceFrame from "../screens/DeviceFrame";
+import Toast from "react-native-toast-message";
 
 export default function RegisterCredentialsScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  const handleRegister = () => {
-    // TODO: valida input
-    navigation.navigate("Login");
-  };
+  const confirmRegistrazione = () => {
+      navigation.navigate("Login");
+      Toast.show({
+        type: "success",
+        text1: "Registrazione effettuata con successo ✔️",
+      });
+  }
 
   return (
     <DeviceFrame>
@@ -73,7 +76,7 @@ export default function RegisterCredentialsScreen({ navigation }) {
             style={styles.input}
           />
 
-          <TouchableOpacity style={styles.button} onPress={handleRegister}>
+          <TouchableOpacity style={styles.button} onPress={() => confirmRegistrazione()}>
             <Text style={styles.buttonText}>Registrati</Text>
           </TouchableOpacity>
 

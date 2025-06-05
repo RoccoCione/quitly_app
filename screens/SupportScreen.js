@@ -170,16 +170,16 @@ export default function SupportScreen() {
         {/* Navbar */}
         <View style={styles.navbar}>
           <TouchableOpacity onPress={() => navigation.navigate("HomeLogged")}>
-            <Ionicons name="home-outline" size={24} color="#2E4E45" />
+            <Ionicons name="home-outline" size={28} color="#2E4E45" />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate("Support")}>
-            <Ionicons name="headset-outline" size={24} color="#2E4E45" />
+            <Ionicons name="headset-outline" size={28} color="#2E4E45" />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate("Stats")}>
-            <Ionicons name="bar-chart-outline" size={24} color="#2E4E45" />
+            <Ionicons name="bar-chart-outline" size={28} color="#2E4E45" />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-            <Ionicons name="settings-outline" size={24} color="#2E4E45" />
+            <Ionicons name="settings-outline" size={28} color="#2E4E45" />
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width: "100%",
-    height: 60,
+    height: 80,
     borderTopWidth: 1,
     borderColor: "#ccc",
     backgroundColor: "#fff",
