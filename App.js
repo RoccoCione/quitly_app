@@ -17,7 +17,7 @@ import SettingsScreen from "./screens/SettingScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import SupportScreen from "./screens/SupportScreen";
 import StatsScreen from "./screens/StatsScreen";
-
+import NotificationScreen from "./screens/NotificationScreen";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -42,6 +42,7 @@ export default function App() {
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Support" component={SupportScreen} />
         <Stack.Screen name="Stats" component={StatsScreen} />
+        <Stack.Screen name="Notification" component={NotificationScreen} />
       </Stack.Navigator>
     </NavigationContainer><Toast /></>
   );

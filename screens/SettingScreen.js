@@ -54,7 +54,7 @@ export default function SettingsScreen({ navigation }) {
           <Text style={styles.optionText}>Lingua</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.option}>
+        <TouchableOpacity style={styles.option} onPress={() => navigation.navigate("Notification")}>
           <Ionicons
             name="notifications-outline"
             size={20}
