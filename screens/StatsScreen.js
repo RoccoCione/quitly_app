@@ -90,7 +90,7 @@ export default function StatsScreen({ navigation }) {
           {/* Box obiettivi */}
           <TouchableOpacity
             style={styles.objectiveBox}
-            onPress={() => navigation.navigate("Obiettivi")}
+            onPress={() => navigation.navigate("Goal")}
           >
             <Text style={styles.boxTitle}>Obiettivi</Text>
             <Ionicons name="trophy-outline" size={48} color="#2E4E45" />
