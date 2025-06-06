@@ -7,25 +7,34 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { BarChart } from "react-native-chart-kit";
-import DeviceFrame from "./DeviceFrame";
-
-const screenWidth = Dimensions.get("window").width;
-const barWidth = 17; // o 14 per più sottile
+import DeviceFrame from "../screens/DeviceFrame";
+import TopSpace from "../components/TopSpace";
+import ScreenContainer from "../components/ScreenContainer";
+import BottomNavbar from "../components/BottomNavbar";
 
 export default function StatsScreen({ navigation }) {
   const data = {
-    labels: ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"],
-    datasets: [
-      {
-        data: [10, 20, 40, 60, 70, 80, 90, 100, 85, 70, 50, 30],
-      },
+    labels: [
+      "Gen",
+      "Feb",
+      "Mar",
+      "Apr",
+      "Mag",
+      "Giu",
+      "Lug",
+      "Ago",
+      "Set",
+      "Ott",
+      "Nov",
+      "Dic",
     ],
+    datasets: [{ data: [10, 20, 40, 60, 70, 80, 90, 100, 85, 70, 50, 30] }],
   };
 
+  const barWidth = 17;
   const chartWidth = data.labels.length * barWidth * 3.0;
 
   return (
@@ -34,37 +43,17 @@ export default function StatsScreen({ navigation }) {
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <ScrollView contentContainerStyle={styles.container}>
-          {/* Titolo */}
-          <Text style={styles.greeting}>Ciao ****,</Text>
-          <Text style={styles.subtitle}>ecco i tuoi progressi!</Text>
+        <TopSpace title="Statistiche" />
 
-          {/* Box in alto */}
-          <View style={styles.topBoxes}>
-            <TouchableOpacity
-              style={styles.box}
-              onPress={() => navigation.navigate("Salute")}
-            >
-              <Text style={styles.boxTitle}>Salute</Text>
-              <Ionicons name="heart-outline" size={48} color="#2E4E45" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.box}
-              onPress={() => navigation.navigate("Risparmio")}
-            >
-              <Text style={styles.boxTitle}>Risparmio</Text>
-              <Ionicons name="cash-outline" size={48} color="#2E4E45" />
-            </TouchableOpacity>
-          </View>
-
+        <ScreenContainer>
           {/* Grafico */}
           <View style={styles.graphContainer}>
             <Text style={styles.graphTitle}>Giorni senza sigarette</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={true}>
+            <ScrollView horizontal showsHorizontalScrollIndicator>
               <BarChart
                 data={data}
                 width={chartWidth}
-                height={200}
+                height={220}
                 fromZero
                 yAxisSuffix=""
                 chartConfig={{
@@ -74,12 +63,11 @@ export default function StatsScreen({ navigation }) {
                   decimalPlaces: 0,
                   color: (opacity = 1) => `rgba(46, 78, 69, ${opacity})`,
                   labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                  style: { borderRadius: 16 },
                   propsForBackgroundLines: { stroke: "#e3e3e3" },
                 }}
                 verticalLabelRotation={0}
                 showBarTops={false}
-                flatColor={true}
+                flatColor
                 segments={5}
                 barWidth={barWidth}
                 style={{ borderRadius: 12 }}
@@ -87,54 +75,55 @@ export default function StatsScreen({ navigation }) {
             </ScrollView>
           </View>
 
+          {/* Box salute e risparmio */}
+          <View style={styles.topBoxes}>
+            <TouchableOpacity
+              style={styles.box}
+              onPress={() => navigation.navigate("Salute")}
+            >
+              <Ionicons name="heart-outline" size={42} color="#2E4E45" />
+              <Text style={styles.boxTitle}>Salute</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.box}
+              onPress={() => navigation.navigate("Risparmio")}
+            >
+              <Ionicons name="cash-outline" size={42} color="#2E4E45" />
+              <Text style={styles.boxTitle}>Risparmio</Text>
+            </TouchableOpacity>
+          </View>
+
           {/* Box obiettivi */}
           <TouchableOpacity
             style={styles.objectiveBox}
             onPress={() => navigation.navigate("Goal")}
           >
+            <Ionicons name="trophy-outline" size={42} color="#2E4E45" />
             <Text style={styles.boxTitle}>Obiettivi</Text>
-            <Ionicons name="trophy-outline" size={48} color="#2E4E45" />
           </TouchableOpacity>
-        </ScrollView>
+        </ScreenContainer>
 
-        {/* Navbar */}
-        <View style={styles.navbar}>
-          <TouchableOpacity onPress={() => navigation.navigate("HomeLogged")}>
-            <Ionicons name="home-outline" size={28} color="#2E4E45" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Support")}>
-            <Ionicons name="headset-outline" size={28} color="#2E4E45" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Stats")}>
-            <Ionicons name="bar-chart-outline" size={28} color="#2E4E45" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-            <Ionicons name="settings-outline" size={28} color="#2E4E45" />
-          </TouchableOpacity>
-        </View>
+        <BottomNavbar />
       </KeyboardAvoidingView>
     </DeviceFrame>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    padding: 20,
-    paddingBottom: 80,
-    flexGrow: 1,
-    justifyContent: "flex-start",
+  graphContainer: {
+    backgroundColor: "#f5f5f5",
+    borderRadius: 14,
+    padding: 16,
+    width: "100%",
+    height: 300,
+    marginBottom: 24,
   },
-  greeting: {
-    fontSize: 28,
+  graphTitle: {
+    fontSize: 17,
     fontWeight: "bold",
-    textAlign: "center",
-    marginTop: 20,
-  },
-  subtitle: {
-    fontSize: 20,
-    textAlign: "center",
-    marginBottom: 20,
+    marginBottom: 12,
+    color: "#2E4E45",
   },
   topBoxes: {
     flexDirection: "row",
@@ -145,54 +134,23 @@ const styles = StyleSheet.create({
   box: {
     backgroundColor: "#f5f5f5",
     flex: 1,
-    marginHorizontal: 5,
-    padding: 15,
+    marginHorizontal: 6,
+    paddingVertical: 20,
+    borderRadius: 14,
     alignItems: "center",
-    borderRadius: 12,
   },
   boxTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "bold",
-    marginBottom: 8,
-  },
-  graphContainer: {
-    backgroundColor: "#f5f5f5",
-    borderRadius: 12,
-    paddingLeft: 5,
-    paddingRight: 5,
-    paddingTop: 10,
-    paddingBottom: 5,
-    width: "100%",
-    height: 300,
-    marginBottom: 20,
-    alignItems: "stretch",
-  },
-  graphTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 12,
-    alignSelf: "flex-start",
     color: "#2E4E45",
+    marginTop: 8,
   },
   objectiveBox: {
     backgroundColor: "#f5f5f5",
-    borderRadius: 12,
-    padding: 20,
+    borderRadius: 14,
+    paddingVertical: 22,
+    paddingHorizontal: 20,
     width: "100%",
-    alignItems: "center",
-    marginBottom: 5,
-    marginTop: "auto",
-  },
-  navbar: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-    height: 80,
-    borderTopWidth: 1,
-    borderColor: "#ccc",
-    backgroundColor: "#fff",
-    flexDirection: "row",
-    justifyContent: "space-around",
     alignItems: "center",
   },
 });

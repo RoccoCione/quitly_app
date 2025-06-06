@@ -10,21 +10,25 @@ import {
   Modal,
 } from "react-native";
 import { Ionicons, Feather } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import DeviceFrame from "../screens/DeviceFrame";
 import Toast from "react-native-toast-message";
+import DeviceFrame from "../screens/DeviceFrame";
+import TopSpace from "../components/TopSpace";
+import ScreenContainer from "../components/ScreenContainer";
+import BottomNavbar from "../components/BottomNavbar";
 
 export default function HomeLoggedScreen() {
   const [todaysCigarettes, setTodaysCigarettes] = useState(5);
   const [showModal, setShowModal] = useState(false);
   const [viewMode, setViewMode] = useState("settimanale");
   const [showDropdown, setShowDropdown] = useState(false);
-  const navigation = useNavigation();
 
   const weeklyData = [11, 9, 12, 10, 8, 7, 5];
   const maxVal = Math.max(...weeklyData);
-  const monthlyData = Array.from({ length: 30 }, () => Math.floor(Math.random() * 10) + 1);
-  const daysOfWeek = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
+  const monthlyData = Array.from(
+    { length: 30 },
+    () => Math.floor(Math.random() * 10) + 1
+  );
+  const daysOfWeek = ["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"];
 
   const confirmSigaretta = () => {
     Toast.show({
@@ -43,11 +47,9 @@ export default function HomeLoggedScreen() {
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <ScrollView
-          contentContainerStyle={styles.container}
-          showsVerticalScrollIndicator={false}
-        >
-          <Text style={styles.header}>Bentornato, ****</Text>
+        <TopSpace title="Bentornato, ****" />
+
+        <ScreenContainer>
           <Text style={styles.subText}>Oggi hai fumato</Text>
           <Text style={styles.bigCount}>{todaysCigarettes}</Text>
           <Text style={styles.subText}>sigarette!</Text>
@@ -72,10 +74,13 @@ export default function HomeLoggedScreen() {
             <Text style={styles.buttonText}>Registra Sigaretta</Text>
           </TouchableOpacity>
 
+          {/* CARD GRAFICO */}
           <View style={styles.card}>
             <View style={styles.cardHeader}>
               <Text style={styles.cardTitle}>
-                {viewMode === "settimanale" ? "SETTIMANA 1 - 2025" : "RIEPILOGO MENSILE"}
+                {viewMode === "settimanale"
+                  ? "SETTIMANA 1 - 2025"
+                  : "RIEPILOGO MENSILE"}
               </Text>
               <TouchableOpacity
                 style={styles.dropdownToggle}
@@ -90,7 +95,9 @@ export default function HomeLoggedScreen() {
               <View style={styles.barGroup}>
                 {weeklyData.map((val, i) => (
                   <View key={i} style={styles.barWrapper}>
-                    <View style={[styles.bar, { height: (val / maxVal) * 120 }]} />
+                    <View
+                      style={[styles.bar, { height: (val / maxVal) * 120 }]}
+                    />
                     <Text style={styles.barLabel}>{val}</Text>
                   </View>
                 ))}
@@ -100,7 +107,7 @@ export default function HomeLoggedScreen() {
                 {daysOfWeek.map((day, index) => (
                   <View key={index} style={styles.dayColumn}>
                     <Text style={styles.dayLabel}>{day}</Text>
-                    {groupedMonthlyData[index].map((val, i) => (
+                    {groupedMonthlyData[index]?.map((val, i) => (
                       <View key={i} style={styles.monthDot}>
                         <Text style={styles.monthDotText}>{val}</Text>
                       </View>
@@ -121,11 +128,11 @@ export default function HomeLoggedScreen() {
             <Feather name="share-2" size={20} color="#fff" />
             <Text style={styles.buttonText}>Esporta Riepilogo</Text>
           </TouchableOpacity>
-        </ScrollView>
+        </ScreenContainer>
 
         {showDropdown && (
           <View style={styles.overlayDropdown}>
-            {['settimanale', 'mensile'].map((option) => (
+            {["settimanale", "mensile"].map((option) => (
               <TouchableOpacity
                 key={option}
                 style={styles.dropdownItem}
@@ -171,42 +178,23 @@ export default function HomeLoggedScreen() {
           </View>
         </Modal>
 
-        <View style={styles.navbar}>
-          <TouchableOpacity onPress={() => navigation.navigate("HomeLogged")}>
-            <Ionicons name="home-outline" size={28} color="#2E4E45" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Support")}>
-            <Ionicons name="headset-outline" size={28} color="#2E4E45" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Stats")}>
-            <Ionicons name="bar-chart-outline" size={28} color="#2E4E45" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-            <Ionicons name="settings-outline" size={28} color="#2E4E45" />
-          </TouchableOpacity>
-        </View>
+        <BottomNavbar />
       </KeyboardAvoidingView>
     </DeviceFrame>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 24,
-    paddingBottom: 120,
-    alignItems: "center",
-    flexGrow: 1,
-  },
-  header: {
-    fontSize: 26,
-    fontWeight: "700",
+  subText: { fontSize: 16, color: "#2E4E45", textAlign: "center" },
+  bigCount: {
+    fontSize: 54,
+    fontWeight: "bold",
     color: "#2E4E45",
-    marginBottom: 6,
+    textAlign: "center",
   },
-  subText: { fontSize: 16, color: "#2E4E45" },
-  bigCount: { fontSize: 54, fontWeight: "bold", color: "#2E4E45" },
   slider: {
     flexDirection: "row",
+    justifyContent: "center",
     marginVertical: 20,
   },
   dot: {
@@ -226,6 +214,7 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     marginVertical: 14,
     elevation: 3,
+    alignSelf: "center",
   },
   buttonText: {
     color: "#fff",
@@ -282,17 +271,46 @@ const styles = StyleSheet.create({
     color: "#333",
     marginTop: 14,
   },
+  monthlyChart: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: 10,
+  },
+  dayColumn: {
+    alignItems: "center",
+    marginHorizontal: 4,
+  },
+  dayLabel: {
+    fontSize: 13,
+    fontWeight: "bold",
+    marginBottom: 6,
+    color: "#2E4E45",
+  },
+  monthDot: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: "#000",
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 4,
+  },
+  monthDotText: {
+    color: "#fff",
+    fontSize: 13,
+    fontWeight: "bold",
+  },
   overlayDropdown: {
-    position: 'absolute',
-    top: 260,
+    position: "absolute",
+    top: 250,
     right: 30,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderRadius: 10,
     padding: 10,
     elevation: 10,
     zIndex: 1000,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
   },
   dropdownItem: {
     paddingVertical: 6,
@@ -300,36 +318,7 @@ const styles = StyleSheet.create({
   },
   dropdownItemText: {
     fontSize: 14,
-    color: '#333',
-  },
-  monthlyChart: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 10,
-  },
-  dayColumn: {
-    alignItems: 'center',
-    marginHorizontal: 4,
-  },
-  dayLabel: {
-    fontSize: 13,
-    fontWeight: 'bold',
-    marginBottom: 6,
-    color: '#2E4E45',
-  },
-  monthDot: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: '#000',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 4,
-  },
-  monthDotText: {
-    color: '#fff',
-    fontSize: 13,
-    fontWeight: 'bold',
+    color: "#333",
   },
   modalWrapper: {
     flex: 1,
@@ -370,17 +359,5 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
     fontSize: 16,
-  },
-  navbar: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-    height: 80,
-    borderTopWidth: 1,
-    borderColor: "#ccc",
-    backgroundColor: "#fff",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
   },
 });
