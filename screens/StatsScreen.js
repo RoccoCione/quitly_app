@@ -79,7 +79,7 @@ export default function StatsScreen({ navigation }) {
           <View style={styles.topBoxes}>
             <TouchableOpacity
               style={styles.box}
-              onPress={() => navigation.navigate("Salute")}
+              onPress={() => navigation.navigate("Health")}
             >
               <Ionicons name="heart-outline" size={42} color="#2E4E45" />
               <Text style={styles.boxTitle}>Salute</Text>
