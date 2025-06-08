@@ -23,6 +23,8 @@ import GoalScreen from "./screens/GoalScreen";
 import RisparmioScreen from "./screens/RisparmioScreen";
 import HealthScreen from "./screens/HealthScreen";
 import NotificationScreen from "./screens/NotificationScreen";
+import InfoScreen from "./screens/InfoScreen";
+import LanguageScreen from "./screens/LanguageScreen.js";
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +62,8 @@ export default function App() {
           <Stack.Screen name="Notification" component={NotificationScreen} />
           <Stack.Screen name="Settings" component={SettingsScreen} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="Info" component={InfoScreen} />
+          <Stack.Screen name="Language" component={LanguageScreen} />
         </Stack.Navigator>
       </NavigationContainer>
       <Toast />

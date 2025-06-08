@@ -23,18 +23,15 @@ const { width } = Dimensions.get("window");
 const INFO = {
   polmoni: {
     title: "Cosa significa?",
-    text:
-      "Smettere di fumare permette ai polmoni di iniziare un processo di pulizia: le ciglia bronchiali ricrescono, migliorando la rimozione di muco e tossine. Dopo alcune settimane, la capacità polmonare aumenta e il rischio di infezioni respiratorie diminuisce sensibilmente.",
+    text: "Smettere di fumare permette ai polmoni di iniziare un processo di pulizia: le ciglia bronchiali ricrescono, migliorando la rimozione di muco e tossine. Dopo alcune settimane, la capacità polmonare aumenta e il rischio di infezioni respiratorie diminuisce sensibilmente.",
   },
   corpo: {
     title: "Cosa significa?",
-    text:
-      "Le performance fisiche migliorano perché il sangue trasporta più ossigeno e meno monossido di carbonio. Il metabolismo si regolarizza, la massa muscolare può aumentare e la sensazione di affaticamento diminuisce, favorendo una vita più attiva.",
+    text: "Le performance fisiche migliorano perché il sangue trasporta più ossigeno e meno monossido di carbonio. Il metabolismo si regolarizza, la massa muscolare può aumentare e la sensazione di affaticamento diminuisce, favorendo una vita più attiva.",
   },
   detox: {
     title: "Cosa significa?",
-    text:
-      "La disintossicazione è il processo con cui il corpo elimina le sostanze nocive accumulate con il fumo. Dopo circa 2 mesi, la maggior parte delle tossine viene espulsa, i polmoni si rigenerano e il rischio di malattie legate al fumo si riduce drasticamente.",
+    text: "La disintossicazione è il processo con cui il corpo elimina le sostanze nocive accumulate con il fumo. Dopo circa 2 mesi, la maggior parte delle tossine viene espulsa, i polmoni si rigenerano e il rischio di malattie legate al fumo si riduce drasticamente.",
   },
 };
 
@@ -68,22 +65,28 @@ export default function HealthScreen({ navigation, daysWithoutSmoking }) {
             contentContainerStyle={styles.scrollContent}
             showsVerticalScrollIndicator={false}
           >
-            <Text style={styles.header}>
-              Ciao ****,{"\n"}ecco come sta migliorando la tua salute!
-            </Text>
-
             {/* Card Polmoni */}
             <View style={styles.card}>
               <View style={styles.cardHeader}>
                 <Ionicons name="heart-outline" size={40} color="#2E4E45" />
                 <TouchableOpacity onPress={() => openModal("polmoni")}>
-                  <Ionicons name="information-circle-outline" size={26} color="#2E4E45" />
+                  <Ionicons
+                    name="information-circle-outline"
+                    size={26}
+                    color="#2E4E45"
+                  />
                 </TouchableOpacity>
               </View>
               <Text style={styles.cardTitle}>Benefici ai polmoni</Text>
-              <Text style={styles.cardText}>• Polmoni più puliti del 45% dopo 2 settimane</Text>
-              <Text style={styles.cardText}>• Bronchi più efficienti del 50%</Text>
-              <Text style={styles.cardText}>• Senso di affanno limitato dopo 2 settimane</Text>
+              <Text style={styles.cardText}>
+                • Polmoni più puliti del 45% dopo 2 settimane
+              </Text>
+              <Text style={styles.cardText}>
+                • Bronchi più efficienti del 50%
+              </Text>
+              <Text style={styles.cardText}>
+                • Senso di affanno limitato dopo 2 settimane
+              </Text>
             </View>
 
             {/* Card Corpo */}
@@ -91,12 +94,22 @@ export default function HealthScreen({ navigation, daysWithoutSmoking }) {
               <View style={styles.cardHeader}>
                 <Ionicons name="walk-outline" size={40} color="#2E4E45" />
                 <TouchableOpacity onPress={() => openModal("corpo")}>
-                  <Ionicons name="information-circle-outline" size={26} color="#2E4E45" />
+                  <Ionicons
+                    name="information-circle-outline"
+                    size={26}
+                    color="#2E4E45"
+                  />
                 </TouchableOpacity>
               </View>
-              <Text style={styles.cardTitle}>Benefici alle performance fisiche</Text>
-              <Text style={styles.cardText}>• Sei dimagrito di 2kg nelle ultime tre settimane</Text>
-              <Text style={styles.cardText}>• La massa muscolare del tuo corpo è aumentata del 15%</Text>
+              <Text style={styles.cardTitle}>
+                Benefici alle performance fisiche
+              </Text>
+              <Text style={styles.cardText}>
+                • Sei dimagrito di 2kg nelle ultime tre settimane
+              </Text>
+              <Text style={styles.cardText}>
+                • La massa muscolare del tuo corpo è aumentata del 15%
+              </Text>
             </View>
 
             {/* Card Detox */}
@@ -104,10 +117,16 @@ export default function HealthScreen({ navigation, daysWithoutSmoking }) {
               <View style={styles.cardHeader}>
                 <Ionicons name="leaf-outline" size={40} color="#2E4E45" />
                 <TouchableOpacity onPress={() => openModal("detox")}>
-                  <Ionicons name="information-circle-outline" size={26} color="#2E4E45" />
+                  <Ionicons
+                    name="information-circle-outline"
+                    size={26}
+                    color="#2E4E45"
+                  />
                 </TouchableOpacity>
               </View>
-              <Text style={styles.cardTitle}>Disintossicazione e pulizia dei polmoni</Text>
+              <Text style={styles.cardTitle}>
+                Disintossicazione e pulizia dei polmoni
+              </Text>
               <View style={styles.progressCircle}>
                 <ProgressChart
                   data={{ data: [detoxPercentage] }}
@@ -146,7 +165,10 @@ export default function HealthScreen({ navigation, daysWithoutSmoking }) {
             <View style={styles.modalBox}>
               <Text style={styles.modalTitle}>{modalInfo.title}</Text>
               <Text style={styles.modalText}>{modalInfo.text}</Text>
-              <TouchableOpacity onPress={closeModal} style={styles.modalButtonSingle}>
+              <TouchableOpacity
+                onPress={closeModal}
+                style={styles.modalButtonSingle}
+              >
                 <Text style={styles.modalButtonText}>Chiudi</Text>
               </TouchableOpacity>
             </View>
@@ -160,7 +182,7 @@ export default function HealthScreen({ navigation, daysWithoutSmoking }) {
 const styles = StyleSheet.create({
   scrollContent: {
     alignItems: "center",
-    padding: 20,
+    padding: 10,
     paddingBottom: 80,
   },
   header: {

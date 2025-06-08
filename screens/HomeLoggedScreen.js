@@ -1,11 +1,11 @@
+// HomeLoggedScreen.js
 import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  ScrollView,
-  Platform,
   KeyboardAvoidingView,
+  Platform,
   View,
   Modal,
 } from "react-native";
@@ -29,6 +29,9 @@ export default function HomeLoggedScreen() {
     () => Math.floor(Math.random() * 10) + 1
   );
   const daysOfWeek = ["Lun", "Mar", "Mer", "Gio", "Ven", "Sab", "Dom"];
+  const groupedMonthlyData = daysOfWeek.map((_, i) =>
+    monthlyData.filter((_, j) => j % 7 === i)
+  );
 
   const confirmSigaretta = () => {
     Toast.show({
@@ -37,17 +40,13 @@ export default function HomeLoggedScreen() {
     });
   };
 
-  const groupedMonthlyData = daysOfWeek.map((_, dayIndex) =>
-    monthlyData.filter((_, i) => i % 7 === dayIndex)
-  );
-
   return (
     <DeviceFrame>
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <TopSpace title="Bentornato, ****" />
+        <TopSpace title="Ciao, ****" />
 
         <ScreenContainer>
           <Text style={styles.subText}>Oggi hai fumato</Text>
@@ -55,7 +54,7 @@ export default function HomeLoggedScreen() {
           <Text style={styles.subText}>sigarette!</Text>
 
           <View style={styles.slider}>
-            {Array.from({ length: 11 }).map((_, i) => (
+            {[...Array(11)].map((_, i) => (
               <View
                 key={i}
                 style={[
@@ -74,55 +73,16 @@ export default function HomeLoggedScreen() {
             <Text style={styles.buttonText}>Registra Sigaretta</Text>
           </TouchableOpacity>
 
-          {/* CARD GRAFICO */}
-          <View style={styles.card}>
-            <View style={styles.cardHeader}>
-              <Text style={styles.cardTitle}>
-                {viewMode === "settimanale"
-                  ? "SETTIMANA 1 - 2025"
-                  : "RIEPILOGO MENSILE"}
-              </Text>
-              <TouchableOpacity
-                style={styles.dropdownToggle}
-                onPress={() => setShowDropdown(!showDropdown)}
-              >
-                <Text style={styles.dropdownText}>{viewMode}</Text>
-                <Ionicons name="chevron-down" size={16} color="#999" />
-              </TouchableOpacity>
-            </View>
-
-            {viewMode === "settimanale" ? (
-              <View style={styles.barGroup}>
-                {weeklyData.map((val, i) => (
-                  <View key={i} style={styles.barWrapper}>
-                    <View
-                      style={[styles.bar, { height: (val / maxVal) * 120 }]}
-                    />
-                    <Text style={styles.barLabel}>{val}</Text>
-                  </View>
-                ))}
-              </View>
-            ) : (
-              <View style={styles.monthlyChart}>
-                {daysOfWeek.map((day, index) => (
-                  <View key={index} style={styles.dayColumn}>
-                    <Text style={styles.dayLabel}>{day}</Text>
-                    {groupedMonthlyData[index]?.map((val, i) => (
-                      <View key={i} style={styles.monthDot}>
-                        <Text style={styles.monthDotText}>{val}</Text>
-                      </View>
-                    ))}
-                  </View>
-                ))}
-              </View>
-            )}
-
-            <Text style={styles.summary}>
-              {viewMode === "settimanale"
-                ? "Hai fumato in media 7 sigarette al giorno, due in meno rispetto l’anno scorso!"
-                : "Panoramica giornaliera del mese"}
-            </Text>
-          </View>
+          <ChartCard
+            viewMode={viewMode}
+            setViewMode={setViewMode}
+            showDropdown={showDropdown}
+            setShowDropdown={setShowDropdown}
+            weeklyData={weeklyData}
+            maxVal={maxVal}
+            daysOfWeek={daysOfWeek}
+            groupedMonthlyData={groupedMonthlyData}
+          />
 
           <TouchableOpacity style={styles.button}>
             <Feather name="share-2" size={20} color="#fff" />
@@ -130,23 +90,7 @@ export default function HomeLoggedScreen() {
           </TouchableOpacity>
         </ScreenContainer>
 
-        {showDropdown && (
-          <View style={styles.overlayDropdown}>
-            {["settimanale", "mensile"].map((option) => (
-              <TouchableOpacity
-                key={option}
-                style={styles.dropdownItem}
-                onPress={() => {
-                  setViewMode(option);
-                  setShowDropdown(false);
-                }}
-              >
-                <Text style={styles.dropdownItemText}>{option}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        )}
-
+        {/* MODALE */}
         <Modal
           transparent
           visible={showModal}
@@ -181,6 +125,86 @@ export default function HomeLoggedScreen() {
         <BottomNavbar />
       </KeyboardAvoidingView>
     </DeviceFrame>
+  );
+}
+
+// COMPONENTE INTERNO
+function ChartCard({
+  viewMode,
+  setViewMode,
+  showDropdown,
+  setShowDropdown,
+  weeklyData,
+  maxVal,
+  daysOfWeek,
+  groupedMonthlyData,
+}) {
+  return (
+    <>
+      <View style={styles.card}>
+        <View style={styles.cardHeader}>
+          <Text style={styles.cardTitle}>
+            {viewMode === "settimanale"
+              ? "SETTIMANA 1 - 2025"
+              : "RIEPILOGO MENSILE"}
+          </Text>
+          <TouchableOpacity
+            style={styles.dropdownToggle}
+            onPress={() => setShowDropdown(!showDropdown)}
+          >
+            <Text style={styles.dropdownText}>{viewMode}</Text>
+            <Ionicons name="chevron-down" size={16} color="#999" />
+          </TouchableOpacity>
+        </View>
+
+        {viewMode === "settimanale" ? (
+          <View style={styles.barGroup}>
+            {weeklyData.map((val, i) => (
+              <View key={i} style={styles.barWrapper}>
+                <View style={[styles.bar, { height: (val / maxVal) * 120 }]} />
+                <Text style={styles.barLabel}>{val}</Text>
+              </View>
+            ))}
+          </View>
+        ) : (
+          <View style={styles.monthlyChart}>
+            {daysOfWeek.map((day, index) => (
+              <View key={index} style={styles.dayColumn}>
+                <Text style={styles.dayLabel}>{day}</Text>
+                {groupedMonthlyData[index]?.map((val, i) => (
+                  <View key={i} style={styles.monthDot}>
+                    <Text style={styles.monthDotText}>{val}</Text>
+                  </View>
+                ))}
+              </View>
+            ))}
+          </View>
+        )}
+
+        <Text style={styles.summary}>
+          {viewMode === "settimanale"
+            ? "Hai fumato in media 7 sigarette al giorno, due in meno rispetto l’anno scorso!"
+            : "Panoramica giornaliera del mese"}
+        </Text>
+      </View>
+
+      {showDropdown && (
+        <View style={styles.overlayDropdown}>
+          {["settimanale", "mensile"].map((option) => (
+            <TouchableOpacity
+              key={option}
+              style={styles.dropdownItem}
+              onPress={() => {
+                setViewMode(option);
+                setShowDropdown(false);
+              }}
+            >
+              <Text style={styles.dropdownItemText}>{option}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
+    </>
   );
 }
 

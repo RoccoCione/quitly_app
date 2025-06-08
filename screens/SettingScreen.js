@@ -20,29 +20,29 @@ export default function SettingsScreen({ navigation }) {
 
   const settingsOptions = [
     {
-      icon: <FontAwesome5 name="user" size={22} color="#2E4E45" />,
+      icon: <FontAwesome5 name="user" size={42} color="#2E4E45" />,
       label: "Profilo",
       onPress: () => navigation.navigate("Profile"),
     },
     {
-      icon: <Ionicons name="globe-outline" size={24} color="#2E4E45" />,
+      icon: <Ionicons name="globe-outline" size={42} color="#2E4E45" />,
       label: "Lingua",
-      onPress: () => {},
+      onPress: () => navigation.navigate("Language"),
     },
     {
-      icon: <Ionicons name="notifications-outline" size={24} color="#2E4E45" />,
+      icon: <Ionicons name="notifications-outline" size={42} color="#2E4E45" />,
       label: "Notifiche",
       onPress: () => navigation.navigate("Notification"),
     },
     {
       icon: (
-        <Ionicons name="information-circle-outline" size={24} color="#2E4E45" />
+        <Ionicons name="information-circle-outline" size={42} color="#2E4E45" />
       ),
       label: "Info",
-      onPress: () => {},
+      onPress: () => navigation.navigate("Info"),
     },
     {
-      icon: <MaterialIcons name="logout" size={24} color="#2E4E45" />,
+      icon: <MaterialIcons name="logout" size={42} color="#2E4E45" />,
       label: "Esci",
       onPress: () => setShowLogoutModal(true),
     },
@@ -96,7 +96,6 @@ export default function SettingsScreen({ navigation }) {
     </DeviceFrame>
   );
 }
-
 const styles = StyleSheet.create({
   grid: {
     flexDirection: "row",
@@ -108,18 +107,18 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#F0F0F0", // grigio chiaro
     width: "48%",
-    aspectRatio: 1,
-    borderRadius: 16,
+    borderRadius: 14,
     marginBottom: 20,
     alignItems: "center",
     justifyContent: "center",
-    elevation: 2,
+    paddingVertical: 20, // coerente con Stats
+    paddingHorizontal: 10,
   },
   cardLabel: {
-    marginTop: 10,
-    fontSize: 15,
-    fontWeight: "600",
-    color: "#2E4E45", // testo verde
+    fontSize: 15, // coerente con boxTitle in Stats
+    fontWeight: "bold",
+    color: "#2E4E45",
+    marginTop: 8,
     textAlign: "center",
   },
   modalOverlay: {

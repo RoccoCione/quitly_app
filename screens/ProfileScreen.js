@@ -10,10 +10,14 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 import PasswordChangeModal from "./PasswordChangeModal";
 import { useNavigation } from "@react-navigation/native";
-import DeviceFrame from "../screens/DeviceFrame"; // percorso corretto
+import DeviceFrame from "../screens/DeviceFrame";
+import TopSpace from "../components/TopSpace";
+import ScreenContainer from "../components/ScreenContainer";
+import BottomNavbar from "../components/BottomNavbar";
 
 export default function ProfileScreen() {
   const [nome, setNome] = useState("");
@@ -23,7 +27,21 @@ export default function ProfileScreen() {
   const [peso, setPeso] = useState("");
   const [editable, setEditable] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [profileImage, setProfileImage] = useState(null);
+
   const navigation = useNavigation();
+
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.8,
+    });
+
+    if (!result.canceled) {
+      setProfileImage(result.assets[0].uri);
+    }
+  };
 
   return (
     <DeviceFrame>
@@ -31,18 +49,24 @@ export default function ProfileScreen() {
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <ScrollView
-          contentContainerStyle={styles.container}
-          showsVerticalScrollIndicator={false}
-        >
-          <Text style={styles.title}>Profilo</Text>
+        <TopSpace title="Profilo" />
 
-          <Image
-            source={{
-              uri: "https://via.placeholder.com/120x120.png?text=User",
-            }}
-            style={styles.avatar}
-          />
+        <ScreenContainer>
+          <View style={styles.avatarContainer}>
+            <TouchableOpacity style={styles.avatarWrapper} onPress={pickImage}>
+              <Image
+                source={
+                  profileImage
+                    ? { uri: profileImage }
+                    : require("../assets/avatar_placeholder.png")
+                }
+                style={styles.avatar}
+              />
+              <View style={styles.editIcon}>
+                <Ionicons name="camera-outline" size={16} color="#fff" />
+              </View>
+            </TouchableOpacity>
+          </View>
 
           <TextInput
             placeholder="Nome"
@@ -72,7 +96,6 @@ export default function ProfileScreen() {
             keyboardType="numbers-and-punctuation"
           />
 
-          {/* Altezza e Peso affiancati */}
           <View style={styles.row}>
             <TextInput
               placeholder="Altezza (cm)"
@@ -94,7 +117,6 @@ export default function ProfileScreen() {
             />
           </View>
 
-          {/* Pulsanti */}
           <View style={styles.buttonRow}>
             <TouchableOpacity
               style={styles.button}
@@ -112,54 +134,42 @@ export default function ProfileScreen() {
               <Text style={styles.buttonText}>Modifica password</Text>
             </TouchableOpacity>
           </View>
-        </ScrollView>
+        </ScreenContainer>
+
+        <PasswordChangeModal
+          visible={showPasswordModal}
+          onClose={() => setShowPasswordModal(false)}
+        />
+
+        <BottomNavbar />
       </KeyboardAvoidingView>
-
-      {/* Modal cambio password */}
-      <PasswordChangeModal
-        visible={showPasswordModal}
-        onClose={() => setShowPasswordModal(false)}
-      />
-
-      {/* Navbar */}
-        <View style={styles.navbar}>
-          <TouchableOpacity onPress={() => navigation.navigate("HomeLogged")}>
-            <Ionicons name="home-outline" size={28} color="#2E4E45" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Support")}>
-            <Ionicons name="headset-outline" size={28} color="#2E4E45" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Stats")}>
-            <Ionicons name="bar-chart-outline" size={28} color="#2E4E45" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-            <Ionicons name="settings-outline" size={28} color="#2E4E45" />
-          </TouchableOpacity>
-        </View>
     </DeviceFrame>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
+  avatarContainer: {
     alignItems: "center",
-    paddingHorizontal: 32,
-    paddingBottom: 100, // spazio per la navbar
-  },
-  title: {
-    fontSize: 30,
-    fontWeight: "bold",
     marginBottom: 28,
-    color: "#2E4E45",
-    marginTop: 30,
+  },
+  avatarWrapper: {
+    position: "relative",
   },
   avatar: {
     width: 120,
     height: 120,
     borderRadius: 60,
-    marginBottom: 28,
     backgroundColor: "#ccc",
+  },
+  editIcon: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    backgroundColor: "#2E4E45",
+    padding: 6,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: "#fff",
   },
   input: {
     backgroundColor: "#fff",
@@ -199,17 +209,5 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
-  },
-  navbar: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-    height: 80,
-    borderTopWidth: 1,
-    borderColor: "#ccc",
-    backgroundColor: "#fff",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
   },
 });
