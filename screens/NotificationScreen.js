@@ -1,19 +1,11 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Switch,
-  ScrollView,
-} from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { View, Text, StyleSheet, Switch } from "react-native";
 import DeviceFrame from "../screens/DeviceFrame";
+import TopSpace from "../components/TopSpace";
+import ScreenContainer from "../components/ScreenContainer";
+import BottomNavbar from "../components/BottomNavbar";
 
 export default function NotificationsScreen() {
-  const navigation = useNavigation();
-
   const [notifications, setNotifications] = useState({
     dailyReminder: true,
     progressUpdates: false,
@@ -28,10 +20,15 @@ export default function NotificationsScreen() {
 
   return (
     <DeviceFrame>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.header}>Notifiche</Text>
-        <Text style={styles.subText}>In questa schermata puoi personalizzare le notifiche dell'app!</Text>
-        <Text style={styles.subText}>Seleziona quali notifiche desideri ricevere:</Text>
+      <TopSpace title="Notifiche" />
+
+      <ScreenContainer>
+        <Text style={styles.subText}>
+          In questa schermata puoi personalizzare le notifiche dell'app!
+        </Text>
+        <Text style={styles.subText}>
+          Seleziona quali notifiche desideri ricevere:
+        </Text>
 
         <View style={styles.optionsContainer}>
           {Object.entries(notifications).map(([key, value]) => (
@@ -46,22 +43,9 @@ export default function NotificationsScreen() {
             </View>
           ))}
         </View>
-      </ScrollView>
+      </ScreenContainer>
 
-      <View style={styles.navbar}>
-        <TouchableOpacity onPress={() => navigation.navigate("HomeLogged")}>
-          <Ionicons name="home-outline" size={28} color="#2E4E45" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Support")}>
-          <Ionicons name="headset-outline" size={28} color="#2E4E45" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Stats")}>
-          <Ionicons name="bar-chart-outline" size={28} color="#2E4E45" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-          <Ionicons name="settings-outline" size={28} color="#2E4E45" />
-        </TouchableOpacity>
-      </View>
+      <BottomNavbar />
     </DeviceFrame>
   );
 }
@@ -75,19 +59,6 @@ const labels = {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    padding: 32,
-    alignItems: "center",
-    paddingBottom: 100,
-  },
-  header: {
-    fontSize: 28,
-    fontWeight: "bold",
-    marginBottom: 24,
-    color: "#2E4E45",
-    textAlign: "center",
-  },
   subText: {
     fontSize: 16,
     color: "#2E4E45",
@@ -110,17 +81,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#2E4E45",
     flex: 1,
-  },
-  navbar: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-    height: 80,
-    borderTopWidth: 1,
-    borderColor: "#ccc",
-    backgroundColor: "#fff",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
   },
 });
