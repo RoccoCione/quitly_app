@@ -21,6 +21,7 @@ import SupportScreen from "./screens/SupportScreen";
 import StatsScreen from "./screens/StatsScreen";
 import GoalScreen from "./screens/GoalScreen";
 import RisparmioScreen from "./screens/RisparmioScreen";
+import HealthScreen from "./screens/HealthScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 
 const Stack = createNativeStackNavigator();
@@ -55,6 +56,7 @@ export default function App() {
           <Stack.Screen name="Stats" component={StatsScreen} />
           <Stack.Screen name="Goal" component={GoalScreen} />
           <Stack.Screen name="Risparmio" component={RisparmioScreen} />
+          <Stack.Screen name="Health" component={HealthScreen} />
           <Stack.Screen name="Notification" component={NotificationScreen} />
           <Stack.Screen name="Settings" component={SettingsScreen} />
           <Stack.Screen name="Profile" component={ProfileScreen} />

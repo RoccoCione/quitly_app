@@ -10,9 +10,12 @@ import {
   Platform,
   Modal,
 } from "react-native";
-import DeviceFrame from "../screens/DeviceFrame";
-import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import DeviceFrame from '../screens/DeviceFrame';
+import TopSpace from '../components/TopSpace';
+import ScreenContainer from '../components/ScreenContainer';
+import BottomNavbar from '../components/BottomNavbar';
+
 
 export default function SupportScreen() {
   const navigation = useNavigation();
@@ -76,114 +79,102 @@ export default function SupportScreen() {
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <ScrollView
-          contentContainerStyle={styles.container}
-          showsVerticalScrollIndicator={false}
-        >
-          {/* Titolo */}
-          <Text style={styles.greeting}>Ciao ****,</Text>
-          <Text style={styles.subtitle}>hai bisogno di aiuto?</Text>
-
-          {/* Bottone contatta un esperto */}
-          <TouchableOpacity
-            style={styles.contactButton}
-            onPress={handleContactExpert}
+        <TopSpace title="Supporto" />
+        <ScreenContainer>
+          <ScrollView
+            contentContainerStyle={styles.container}
+            showsVerticalScrollIndicator={false}
           >
-            <Text style={styles.contactButtonText}>Contatta un esperto 📞</Text>
-          </TouchableOpacity>
+            {/* Titolo */}
+            <Text style={styles.greeting}>Ciao ****,</Text>
+            <Text style={styles.subtitle}>hai bisogno di aiuto?</Text>
 
-          {/* Domande suggerite */}
-          <Text style={styles.sectionTitle}>Domande suggerite</Text>
+            {/* Bottone contatta un esperto */}
+            <TouchableOpacity
+              style={styles.contactButton}
+              onPress={handleContactExpert}
+            >
+              <Text style={styles.contactButtonText}>Contatta un esperto 📞</Text>
+            </TouchableOpacity>
 
-          <View style={styles.faqBox}>
-            {faqs.map((item, index) => (
-              <TouchableOpacity
-                key={index}
-                style={styles.faqItem}
-                onPress={() => handleShowExplanation(item.answer)}
-              >
-                <Text style={styles.faqText}>{item.question}</Text>
-                <Text style={styles.arrow}>{">"}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+            {/* Domande suggerite */}
+            <Text style={styles.sectionTitle}>Domande suggerite</Text>
 
-          {/* Link risorse professionali */}
-          <TouchableOpacity onPress={handleOpenWebsite}>
-            <Text style={styles.link}>Visualizza risorse professionali</Text>
-          </TouchableOpacity>
-        </ScrollView>
-
-        {/* Modale FAQ */}
-        <Modal
-          transparent
-          visible={modalVisible}
-          animationType="fade"
-          onRequestClose={() => setModalVisible(false)}
-        >
-          <View style={styles.modalWrapper}>
-            <View style={styles.modalBox}>
-              <Text style={styles.modalText}>{modalText}</Text>
-              <TouchableOpacity
-                style={[styles.modalButtonSingle, styles.confirm]}
-                onPress={() => setModalVisible(false)}
-              >
-                <Text style={styles.modalButtonText}>OK</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
-
-        {/* Modale chiamata esperto */}
-        <Modal
-          transparent
-          visible={callModalVisible}
-          animationType="fade"
-          onRequestClose={() => setCallModalVisible(false)}
-        >
-          <View style={styles.modalWrapper}>
-            <View style={styles.modalBox}>
-              <Text style={styles.modalText}>
-                Stai chiamando il numero di prevenzione nazionale per smettere di fumare.
-              </Text>
-              <View style={styles.modalButtons}>
+            <View style={styles.faqBox}>
+              {faqs.map((item, index) => (
                 <TouchableOpacity
-                  style={[styles.modalButton, styles.cancel]}
-                  onPress={() => setCallModalVisible(false)}
+                  key={index}
+                  style={styles.faqItem}
+                  onPress={() => handleShowExplanation(item.answer)}
                 >
-                  <Text style={styles.modalButtonText}>Annulla</Text>
+                  <Text style={styles.faqText}>{item.question}</Text>
+                  <Text style={styles.arrow}>{">"}</Text>
                 </TouchableOpacity>
+              ))}
+            </View>
+
+            {/* Link risorse professionali */}
+            <TouchableOpacity onPress={handleOpenWebsite}>
+              <Text style={styles.link}>Visualizza risorse professionali</Text>
+            </TouchableOpacity>
+          </ScrollView>
+
+          {/* Modale FAQ */}
+          <Modal
+            transparent
+            visible={modalVisible}
+            animationType="fade"
+            onRequestClose={() => setModalVisible(false)}
+          >
+            <View style={styles.modalWrapper}>
+              <View style={styles.modalBox}>
+                <Text style={styles.modalText}>{modalText}</Text>
                 <TouchableOpacity
-                  style={[styles.modalButton, styles.confirm]}
-                  onPress={() => {
-                    setCallModalVisible(false);
-                    Linking.openURL("tel:800554088");
-                  }}
+                  style={[styles.modalButtonSingle, styles.confirm]}
+                  onPress={() => setModalVisible(false)}
                 >
-                  <Text style={styles.modalButtonText}>Conferma</Text>
+                  <Text style={styles.modalButtonText}>OK</Text>
                 </TouchableOpacity>
               </View>
             </View>
-          </View>
-        </Modal>
+          </Modal>
 
-        {/* Navbar */}
-        <View style={styles.navbar}>
-          <TouchableOpacity onPress={() => navigation.navigate("HomeLogged")}>
-            <Ionicons name="home-outline" size={28} color="#2E4E45" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Support")}>
-            <Ionicons name="headset-outline" size={28} color="#2E4E45" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Stats")}>
-            <Ionicons name="bar-chart-outline" size={28} color="#2E4E45" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-            <Ionicons name="settings-outline" size={28} color="#2E4E45" />
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
-    </DeviceFrame>
+          {/* Modale chiamata esperto */}
+          <Modal
+            transparent
+            visible={callModalVisible}
+            animationType="fade"
+            onRequestClose={() => setCallModalVisible(false)}
+          >
+            <View style={styles.modalWrapper}>
+              <View style={styles.modalBox}>
+                <Text style={styles.modalText}>
+                  Stai chiamando il numero di prevenzione nazionale per smettere di fumare.
+                </Text>
+                <View style={styles.modalButtons}>
+                  <TouchableOpacity
+                    style={[styles.modalButton, styles.cancel]}
+                    onPress={() => setCallModalVisible(false)}
+                  >
+                    <Text style={styles.modalButtonText}>Annulla</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.modalButton, styles.confirm]}
+                    onPress={() => {
+                      setCallModalVisible(false);
+                      Linking.openURL("tel:800554088");
+                    }}
+                  >
+                    <Text style={styles.modalButtonText}>Conferma</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal>
+          </ScreenContainer>
+          <BottomNavbar/>
+        </KeyboardAvoidingView>
+      </DeviceFrame>
   );
 }
 
