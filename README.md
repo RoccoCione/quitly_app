@@ -53,9 +53,13 @@
 4. **Scansiona il QR code** tramite Expo Go (iOS/Android)
 
 ---
-## 👤 Autori
+## 👨‍💻 Autori
 
-**Quitly** è sviluppata da Rocco Cione, Vito Vernellati e Aniello Giamundo.
+Quitly è sviluppata da:
+
+- [**Rocco Cione**](https://github.com/RoccoCione)
+- [**Vito Vernellati**](https://github.com/Vito-03)
+- [**Aniello Giamundo**](https://github.com/AnielloG)
 
 ---
 ## 📄 Licenza
