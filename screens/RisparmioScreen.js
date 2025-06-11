@@ -7,6 +7,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   Image,
+  TextInput,
+  Modal,
 } from "react-native";
 import { Ionicons, Feather } from "@expo/vector-icons";
 import DeviceFrame from "../screens/DeviceFrame";
@@ -26,6 +28,15 @@ export default function RecapScreen() {
   ]);
 
   const total = weeklyData.reduce((sum, d) => sum + d.value, 0).toFixed(2);
+
+  const [showModal, setShowModal] = useState(false);
+  const [price, setPrice] = useState("5.00");
+  const [quantity, setQuantity] = useState("1");
+
+  const confirmValues = () => {
+    setShowModal(false);
+    // Puoi aggiungere qui logica di salvataggio o toast
+  };
 
   return (
     <DeviceFrame>
@@ -51,17 +62,16 @@ export default function RecapScreen() {
             </View>
           </View>
 
-          {/* BOTTONI */}
+          {/* GESTIONE PACCHETTO */}
           <View style={styles.buttonRow}>
-            <TouchableOpacity style={styles.actionButton}>
-              <Feather name="plus" size={18} color="#fff" />
+            <TouchableOpacity
+              style={styles.actionButton}
+              onPress={() => setShowModal(true)}
+            >
+              <Feather name="settings" size={18} color="#fff" />
               <Text style={styles.actionButtonText}>
-                Aggiungi{"\n"}pacchetto
+                Gestisci{"\n"}Pacchetto
               </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.actionButton}>
-              <Feather name="edit-3" size={18} color="#fff" />
-              <Text style={styles.actionButtonText}>Modifica{"\n"}importo</Text>
             </TouchableOpacity>
           </View>
 
@@ -95,6 +105,53 @@ export default function RecapScreen() {
         </ScreenContainer>
 
         <BottomNavbar />
+
+        {/* MODALE */}
+        <Modal
+          transparent
+          visible={showModal}
+          animationType="fade"
+          onRequestClose={() => setShowModal(false)}
+        >
+          <View style={styles.modalWrapper}>
+            <View style={styles.modalBox}>
+              <Text style={styles.modalText}>
+                Inserisci i dati del pacchetto
+              </Text>
+
+              <Text style={styles.inputLabel}>Prezzo del pacchetto (€)</Text>
+              <TextInput
+                style={styles.modalInput}
+                value={price}
+                onChangeText={setPrice}
+                keyboardType="decimal-pad"
+              />
+
+              <Text style={styles.inputLabel}>Quantità</Text>
+              <TextInput
+                style={styles.modalInput}
+                value={quantity}
+                onChangeText={setQuantity}
+                keyboardType="number-pad"
+              />
+
+              <View style={styles.modalButtons}>
+                <TouchableOpacity
+                  style={[styles.modalButton, styles.confirm]}
+                  onPress={confirmValues}
+                >
+                  <Text style={styles.modalButtonText}>Conferma</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.modalButton, styles.cancel]}
+                  onPress={() => setShowModal(false)}
+                >
+                  <Text style={styles.modalButtonText}>Annulla</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </KeyboardAvoidingView>
     </DeviceFrame>
   );
@@ -135,7 +192,6 @@ const styles = StyleSheet.create({
     color: "#b30000",
     marginTop: 4,
   },
-
   buttonRow: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -223,5 +279,64 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
     marginLeft: 6,
+  },
+  modalWrapper: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalBox: {
+    backgroundColor: "#fff",
+    borderRadius: 14,
+    paddingVertical: 28,
+    paddingHorizontal: 24,
+    width: 300,
+    alignItems: "center",
+    elevation: 5,
+  },
+  modalText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 24,
+    textAlign: "center",
+  },
+  inputLabel: {
+    fontSize: 14,
+    color: "#333",
+    alignSelf: "flex-start",
+    marginTop: 10,
+  },
+  modalInput: {
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 10,
+    padding: 10,
+    marginTop: 6,
+  },
+  modalButtons: {
+    flexDirection: "row",
+    width: "100%",
+    marginTop: 20,
+  },
+  modalButton: {
+    flex: 1,
+    marginHorizontal: 8,
+    paddingVertical: 14,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  confirm: {
+    backgroundColor: "#2E4E45",
+  },
+  cancel: {
+    backgroundColor: "#b30000",
+  },
+  modalButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });
