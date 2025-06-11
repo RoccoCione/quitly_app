@@ -7,8 +7,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   Image,
-  TextInput,
   Modal,
+  TextInput,
 } from "react-native";
 import { Ionicons, Feather } from "@expo/vector-icons";
 import DeviceFrame from "../screens/DeviceFrame";
@@ -27,16 +27,16 @@ export default function RecapScreen() {
     { day: "Dom", value: 0 },
   ]);
 
-  const total = weeklyData.reduce((sum, d) => sum + d.value, 0).toFixed(2);
-
   const [showModal, setShowModal] = useState(false);
   const [price, setPrice] = useState("5.00");
   const [quantity, setQuantity] = useState("1");
 
   const confirmValues = () => {
     setShowModal(false);
-    // Puoi aggiungere qui logica di salvataggio o toast
+    // Logica per salvare o elaborare i valori
   };
+
+  const total = weeklyData.reduce((sum, d) => sum + d.value, 0).toFixed(2);
 
   return (
     <DeviceFrame>
@@ -45,7 +45,6 @@ export default function RecapScreen() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <TopSpace title="Riepilogo spese" />
-
         <ScreenContainer>
           {/* CARD RISPARMIO */}
           <View style={styles.savingCard}>
@@ -62,16 +61,14 @@ export default function RecapScreen() {
             </View>
           </View>
 
-          {/* GESTIONE PACCHETTO */}
-          <View style={styles.buttonRow}>
+          {/* BOTTONE AGGIUNGI PACCHETTO */}
+          <View style={styles.spacing}>
             <TouchableOpacity
-              style={styles.actionButton}
+              style={styles.exportButton}
               onPress={() => setShowModal(true)}
             >
-              <Feather name="settings" size={18} color="#fff" />
-              <Text style={styles.actionButtonText}>
-                Gestisci{"\n"}Pacchetto
-              </Text>
+              <Feather name="plus" size={18} color="#fff" />
+              <Text style={styles.exportButtonText}>Aggiungi pacchetto</Text>
             </TouchableOpacity>
           </View>
 
@@ -98,15 +95,17 @@ export default function RecapScreen() {
           </View>
 
           {/* ESPORTA */}
-          <TouchableOpacity style={styles.exportButton}>
-            <Feather name="share-2" size={18} color="#fff" />
-            <Text style={styles.exportButtonText}>Esporta Riepilogo</Text>
-          </TouchableOpacity>
+          <View style={styles.spacing}>
+            <TouchableOpacity style={styles.exportButton}>
+              <Feather name="share-2" size={18} color="#fff" />
+              <Text style={styles.exportButtonText}>Esporta Riepilogo</Text>
+            </TouchableOpacity>
+          </View>
         </ScreenContainer>
 
         <BottomNavbar />
 
-        {/* MODALE */}
+        {/* MODALE AGGIUNTA PACCHETTO */}
         <Modal
           transparent
           visible={showModal}
@@ -164,7 +163,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 16,
     padding: 16,
-    marginBottom: 20,
+    marginBottom: 24,
     width: "100%",
   },
   savingContent: {
@@ -192,28 +191,20 @@ const styles = StyleSheet.create({
     color: "#b30000",
     marginTop: 4,
   },
-  buttonRow: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
-    marginBottom: 24,
-  },
-  actionButton: {
+  exportButton: {
     backgroundColor: "#2E4E45",
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 20,
+    borderRadius: 28,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    alignSelf: "center",
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    width: 130,
   },
-  actionButtonText: {
+  exportButtonText: {
     color: "#fff",
     fontWeight: "bold",
-    fontSize: 13,
-    textAlign: "center",
-    marginTop: 6,
-    lineHeight: 18,
+    fontSize: 16,
+    marginLeft: 6,
   },
   card: {
     backgroundColor: "#fff",
@@ -221,7 +212,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 14,
     padding: 18,
-    marginBottom: 20,
+    marginBottom: 24,
     width: "100%",
   },
   cardHeader: {
@@ -264,21 +255,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 10,
   },
-  exportButton: {
-    backgroundColor: "#2E4E45",
-    borderRadius: 28,
-    paddingVertical: 14,
-    paddingHorizontal: 24,
-    marginTop: 20,
-    alignSelf: "center",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  exportButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 16,
-    marginLeft: 6,
+  spacing: {
+    marginBottom: 24,
   },
   modalWrapper: {
     flex: 1,
@@ -319,7 +297,7 @@ const styles = StyleSheet.create({
   modalButtons: {
     flexDirection: "row",
     width: "100%",
-    marginTop: 20,
+    marginTop: 24,
   },
   modalButton: {
     flex: 1,
@@ -328,12 +306,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
   },
-  confirm: {
-    backgroundColor: "#2E4E45",
-  },
-  cancel: {
-    backgroundColor: "#b30000",
-  },
+  confirm: { backgroundColor: "#2E4E45" },
+  cancel: { backgroundColor: "#b30000" },
   modalButtonText: {
     color: "#fff",
     fontWeight: "bold",
