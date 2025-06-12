@@ -31,7 +31,7 @@ export default function StatsScreen({ navigation }) {
       "Nov",
       "Dic",
     ],
-    datasets: [{ data: [10, 20, 40, 60, 70, 80, 90, 100, 85, 70, 50, 30] }],
+    datasets: [{ data: [5, 10, 15, 20, 25, 30] }],
   };
 
   const barWidth = 17;
