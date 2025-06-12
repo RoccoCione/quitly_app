@@ -128,7 +128,7 @@ export default function GoalsScreen() {
               onPress={() => setNewGoalModalVisible(true)}
             >
               <Feather name="plus" size={18} color="#fff" />
-              <Text style={styles.buttonText}>Imposta obiettivi</Text>
+              <Text style={styles.buttonText}>Imposta obiettivo</Text>
             </TouchableOpacity>
 
             <View style={styles.goalCard}>
